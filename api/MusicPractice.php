@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-
 define('APPLICATION_NAME', 'MusicPractice');
 define('CREDENTIALS_PATH', __DIR__ . '/credentials.json');
 define('CLIENT_SECRET_PATH', __DIR__ . '/client_secret.json');
@@ -41,19 +40,34 @@ function getClient() {
 		$accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
 
 		// Store the credentials to disk.
-		if(!file_exists(dirname($credentialsPath))) {
+		if (!file_exists(dirname($credentialsPath))) {
 			mkdir(dirname($credentialsPath), 0700, true);
 		}
 		file_put_contents($credentialsPath, json_encode($accessToken));
 		printf("Credentials saved to %s\n", $credentialsPath);
 	}
-	$client->setAccessToken($accessToken);
+	try {
+		$client->setAccessToken($accessToken);
+	} catch (InvalidArgumentException $e) {
+		unlink($credentialsPath);
+
+		return getClient();
+	}
 
 	// Refresh the token if it's expired.
 	if ($client->isAccessTokenExpired()) {
-		$client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+		try {
+			$client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+		} catch (LogicException $e) {
+			if ('refresh token must be passed in or set as part of setAccessToken' == $e->getMessage()) {
+				unlink($credentialsPath);
+
+				return getClient();
+			}
+		}
 		file_put_contents($credentialsPath, json_encode($client->getAccessToken()));
 	}
+
 	return $client;
 }
 
@@ -84,7 +98,7 @@ try {
 		if (array_key_exists('scriptStackTraceElements', $error)) {
 			// There may not be a stacktrace if the script didn't start executing.
 			print "Script error stacktrace:\n";
-			foreach($error['scriptStackTraceElements'] as $trace) {
+			foreach ($error['scriptStackTraceElements'] as $trace) {
 				printf("\t%s: %d\n", $trace['function'], $trace['lineNumber']);
 			}
 		}
