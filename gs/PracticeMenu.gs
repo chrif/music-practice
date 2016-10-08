@@ -1,29 +1,33 @@
 
 function addMenuToUi() {
     SpreadsheetApp.getUi()
-        .createMenu('Practice')
+      .createMenu('Practice')
         .addItem('Start', 'startPractice')
         .addItem('Stop', 'stopPractice')
         .addSubMenu(SpreadsheetApp.getUi().createMenu('Minutes daily')
-            .addItem('Update ', 'updateMinutesDaily'))
-        .addToUi();
+          .addItem('Update ', 'updateMinutesDaily'))
+      .addToUi();
 }
 
 function startPractice() {
-    PracticeLog.startPractice();
+  PracticeLog.startPractice();
 
-    SpreadsheetApp.getActive().toast('Practice started');
+  PracticeLog.focusLastRow();
+
+  SpreadsheetApp.getActive().toast('Practice started');
 }
 
 
 function stopPractice() {
-    PracticeLog.stopPractice();
+  PracticeLog.stopPractice();
 
-    SpreadsheetApp.getActive().toast('Practice stopped');
+  PracticeLog.focusLastRow();
+
+  SpreadsheetApp.getActive().toast('Practice stopped');
 }
 
 function updateMinutesDaily() {
-    MinutesDaily.update();
+  MinutesDaily.update();
 
-    SpreadsheetApp.getActive().toast('Minutes daily updated');
+  SpreadsheetApp.getActive().toast('Minutes daily updated');
 }
