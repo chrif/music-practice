@@ -1,6 +1,1 @@
-# Created by .ignore support plugin (hsz.mobi)
-composer.phar
 .idea
-/vendor/
-/api/credentials.json
-/api/client_secret.json
