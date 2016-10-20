@@ -1,4 +1,4 @@
-function startPractice() {
+function startPractice(score) {
   // save last row before appending new one
   var savedRow = getLastRow();
 
@@ -11,6 +11,10 @@ function startPractice() {
   Common.copyCellFormat(getStartCell(savedRow), startCell);
 
   getEndCell(newRow).clearContent();
+
+  if (score) {
+    getScoreCell(newRow).setValue(score);
+  }
 }
 
 function stopPractice() {
@@ -36,6 +40,10 @@ function getStartCell(row) {
 
 function getEndCell(row) {
   return row.getCell(1,3);
+}
+
+function getScoreCell(row) {
+  return row.getCell(1,5);
 }
 
 function getSheet() {
