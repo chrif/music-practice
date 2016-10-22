@@ -38,7 +38,7 @@ function getDateCell(row) {
   return row.getCell(1,1);
 }
 
-function getAverageDaily() {
+function getAverage() {
   return Common.formatTime(getSheet().getRange("D1").getValue());
 }
 

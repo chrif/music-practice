@@ -46,10 +46,6 @@ function getScoreCell(row) {
   return row.getCell(1,5);
 }
 
-function getDurationInMinutesCell(row) {
-  return row.getCell(1,7);
-}
-
 function getDurationCell(row) {
   return row.getCell(1,4);
 }
@@ -69,13 +65,5 @@ function focusLastRow() {
 }
 
 function getLastDuration() {
-  var lastRow = getLastRow();
-  var date = Common.formatDate(getStartCell(lastRow).getValue());
-  var duration = Common.formatTime(getDurationCell(lastRow).getValue());
-
-  if (Common.getCurrentDate() == date) {
-    date = 'today';
-  }
-
-  return duration;
+  return Common.formatTime(getDurationCell(getLastRow()).getValue());
 }
