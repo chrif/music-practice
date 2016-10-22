@@ -10,20 +10,20 @@ function addMenuToUi() {
 }
 
 function startPractice() {
-  PracticeLog.startPractice();
+  var result = PracticeLog.startPractice();
 
   PracticeLog.focusLastRow();
 
-  SpreadsheetApp.getActive().toast('Practice started');
+  SpreadsheetApp.getActive().toast(result);
 }
 
 
 function stopPractice() {
-  PracticeLog.stopPractice();
+  var result = PracticeLog.stopPractice();
 
   PracticeLog.focusLastRow();
 
-  SpreadsheetApp.getActive().toast('Practice stopped');
+  SpreadsheetApp.getActive().toast(result);
 }
 
 function updateMinutesDaily() {

@@ -1,6 +1,9 @@
 function startPractice(score) {
   // save last row before appending new one
   var savedRow = getLastRow();
+  if (getEndCell(savedRow).isBlank()) {
+    return 'Practice was already started with ' + getScoreCell(savedRow).getValue();
+  }
 
   var newRow = Common.appendCopyOfLastRow(getSheet());
   var startCell = getStartCell(newRow);
@@ -12,9 +15,12 @@ function startPractice(score) {
 
   getEndCell(newRow).clearContent();
 
+  var scoreCell = getScoreCell(newRow);
   if (score) {
-    getScoreCell(newRow).setValue(score);
+    scoreCell.setValue(score);
   }
+
+  return 'Practice started with ' + scoreCell.getValue();
 }
 
 function stopPractice() {
@@ -27,7 +33,11 @@ function stopPractice() {
 
     // force format to just time by copying from start cell
     Common.copyCellFormat(startCell, endCell);
+
+    return 'Practice stopped';
   }
+
+  return 'Practice was already stopped';
 }
 
 function getDateCell(row) {

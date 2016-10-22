@@ -1,17 +1,10 @@
 
 function start(parameters) {
-  var score = parameters.score;
-
-  PracticeLog.startPractice(score);
-
-  return 'Practice started with ' + score;
+  return PracticeLog.startPractice(parameters.score);
 }
 
-
 function stop() {
-  PracticeLog.stopPractice();
-
-  return 'Practice stopped';
+  return PracticeLog.stopPractice();
 }
 
 function scores() {
