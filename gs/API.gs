@@ -12,11 +12,9 @@ function scores() {
 }
 
 function stats() {
-  return {
-    rows: [
+  return [
       ["Last session", PracticeLog.getLastDuration()],
       ["Average daily", MinutesDaily.getAverage()],
       ["Today", MinutesDaily.getToday()]
-    ]
-  };
+  ];
 }
