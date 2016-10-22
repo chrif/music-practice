@@ -1,20 +1,25 @@
 function startPractice(score) {
-  // save last row before appending new one
-  var savedRow = getLastRow();
-  if (getEndCell(savedRow).isBlank()) {
-    return 'Practice was already started with ' + getScoreCell(savedRow).getValue();
+  if (isStarted()) {
+    return 'Practice was already started with ' + getScoreCell(getLastRow()).getValue();
   }
 
-  var newRow = Common.appendCopyOfLastRow(getSheet());
-  var startCell = getStartCell(newRow);
+  // save last row
+  var savedRow = getLastRow();
 
+  //  appending new one
+  var newRow = Common.appendCopyOfLastRow(getSheet());
+
+  // set start time
+  var startCell = getStartCell(newRow);
   startCell.setValue(Common.getCurrentDateTime());
 
   // force format to just time by copying from saved row
   Common.copyCellFormat(getStartCell(savedRow), startCell);
 
+  // clear end time
   getEndCell(newRow).clearContent();
 
+  // update score
   var scoreCell = getScoreCell(newRow);
   if (score) {
     scoreCell.setValue(score);
@@ -24,20 +29,20 @@ function startPractice(score) {
 }
 
 function stopPractice() {
+  if (isStopped()) {
+    return 'Practice was already stopped';
+  }
+
   var lastRow = getLastRow();
   var endCell = getEndCell(lastRow);
   var startCell = getStartCell(lastRow);
 
-  if (endCell.isBlank()) {
-    endCell.setValue(Common.getCurrentDateTime());
+  endCell.setValue(Common.getCurrentDateTime());
 
-    // force format to just time by copying from start cell
-    Common.copyCellFormat(startCell, endCell);
+  // force format to just time by copying from start cell
+  Common.copyCellFormat(startCell, endCell);
 
-    return 'Practice stopped';
-  }
-
-  return 'Practice was already stopped';
+  return 'Practice stopped';
 }
 
 function getDateCell(row) {
@@ -74,6 +79,36 @@ function focusLastRow() {
   } catch (e){}
 }
 
+function isStarted() {
+  return getEndCell(getLastRow()).isBlank();
+}
+
+function isStopped() {
+  return !isStarted();
+}
+
+function getCurrentDuration() {
+  if (isStopped()) {
+    return null;
+  }
+
+  var lastRow = getLastRow();
+
+  var endCell = getEndCell(lastRow);
+
+  endCell.setValue(Common.getCurrentDateTime());
+
+  var duration = Common.formatTime(getDurationCell(lastRow).getValue());
+
+  endCell.clearContent();
+
+  return duration;
+}
+
 function getLastDuration() {
+  if (isStarted()) {
+    return null;
+  }
+
   return Common.formatTime(getDurationCell(getLastRow()).getValue());
 }
