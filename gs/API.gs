@@ -14,8 +14,7 @@ function scores() {
 function stats() {
   return [
       ["Current session", PracticeLog.getCurrentDuration() || "Stopped"],
-      ["Last session", PracticeLog.getLastDuration() || "Not stopped"],
-      ["Average daily", MinutesDaily.getAverage()],
-      ["Today", MinutesDaily.getToday()]
+      ["Today", MinutesDaily.getToday()],
+      ["Average daily", MinutesDaily.getAverage()]
   ];
 }
