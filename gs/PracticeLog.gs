@@ -87,9 +87,10 @@ function isStopped() {
   return !isStarted();
 }
 
-function getCurrentDuration() {
+function pausePractice(callback) {
   if (isStopped()) {
-    return null;
+    callback();
+    return;
   }
 
   var lastRow = getLastRow();
@@ -98,9 +99,21 @@ function getCurrentDuration() {
 
   endCell.setValue(Common.getCurrentDateTime());
 
-  var duration = Common.formatTime(getDurationCell(lastRow).getValue());
+  callback();
 
   endCell.clearContent();
+}
+
+function getCurrentDuration() {
+  if (isStopped()) {
+    return null;
+  }
+
+  var duration;
+
+  pausePractice(function() {
+    duration = Common.formatTime(getDurationCell(getLastRow()).getValue());
+  });
 
   return duration;
 }

@@ -51,5 +51,11 @@ function getDurationCell(row) {
 }
 
 function getToday() {
-  return Common.formatTime(getDurationCell(getLastRow()).getValue());
+  var duration;
+
+  PracticeLog.pausePractice(function() {
+    duration = Common.formatTime(getDurationCell(getLastRow()).getValue());
+  });
+
+  return duration;
 }
