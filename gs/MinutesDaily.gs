@@ -39,7 +39,13 @@ function getDateCell(row) {
 }
 
 function getAverage() {
-  return Common.formatTime(getSheet().getRange("D1").getValue());
+  var duration;
+
+  PracticeLog.pausePractice(function() {
+    duration = Common.formatTime(getSheet().getRange("D1").getValue());
+  });
+
+  return duration;
 }
 
 function getLastRow() {
