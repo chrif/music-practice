@@ -1,6 +1,6 @@
 
 function start(parameters) {
-  return PracticeLog.startPractice(parameters.score);
+  return PracticeLog.startPractice(parameters && parameters.score);
 }
 
 function stop() {
